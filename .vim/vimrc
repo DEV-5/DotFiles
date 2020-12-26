@@ -1,0 +1,298 @@
+execute pathogen#infect()
+call pathogen#helptags()
+set nocompatible
+syntax on
+filetype plugin indent on
+
+let g:solarized_termcolors=256
+let g:Powerline_symbols = 'fancy'
+colorscheme Tomorrow-Night-Eighties
+let g:airline_theme='cool'
+"set background=light
+"colorscheme solarized
+set number
+set cursorline
+set showtabline=0 "set value to show the buffer line
+set lazyredraw "make vim faster
+set t_Co=256
+set splitright "open new split panes to right
+set undolevels=100      " use many levels of undo
+"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 12
+
+"setting tab to 4 spaces for python
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+
+" Useful settings
+set history=700
+set undolevels=700
+
+"set hlsearch guibg=lighblue "highlight's search matches
+set hlsearch
+set incsearch "highlight the current search word being typed"
+hi Search ctermbg=Black
+hi Search ctermfg=LightYellow
+set encoding=UTF-8
+set fillchars=vert:│ "not doing anything
+set clipboard+=unnamedplus
+set spellfile=~/.vim/spell/en.utf-8.add "spell check file"
+
+"enabling highlight the nth word if they are more thatn n words in theline
+highlight ColorColumn ctermbg=155
+call matchadd('ColorColumn','\%121v',100)
+hi cursorline cterm=none
+"highlight CursorLine ctermbg=LightBlue
+hi cursorlinenr ctermfg=208 gui=bold
+"underline spell errors in terminals
+"hi clear SpellBad
+"hi SpellBad ctermfg=Cyan cterm=bold
+"hi SpellBad cterm=underline
+
+"start powerline
+set rtp+=/usr/lib/python3.5/site-packages/powerline/bindings/vim/
+set laststatus=2    
+"end powerline
+set list listchars=tab:>-,trail:-
+
+"=== === === === === === === Start of vundle config === === === === === === ===
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+"call vundle#begin('~/some/path/here')
+Plugin 'VundleVim/Vundle.vim' "let Vundle manage Vundle, required
+Plugin 'ycm-core/YouCompleteMe'
+Plugin 'rdnetto/YCM-Generator'
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'junegunn/goyo.vim'
+Plugin 'kkoomen/vim-doge'
+Plugin 'majutsushi/tagbar'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'dense-analysis/ale'
+Plugin 'google/vim-searchindex'
+Plugin 'junegunn/fzf.vim'
+Plugin 'mbbill/undotree'
+Plugin 'tpope/vim-vinegar'
+Plugin 'preservim/nerdtree'
+Plugin 'scrooloose/vim-slumlord'
+Plugin 'aklt/plantuml-syntax'
+Plugin 'luochen1990/rainbow'
+"Plugin 'frazrepo/vim-rainbow' causing highlight issues
+Plugin 'EvanQuan/vim-executioner'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'ryanoasis/vim-devicons'  
+Plugin 'Yggdroot/indentLine'
+"HTML Plugins
+Plugin 'mattn/emmet-vim'
+Plugin 'turbio/bracey.vim'
+Plugin 'pangloss/vim-javascript' 
+"this is plugin to allow epub files to be read by vim
+"Plugin 'roman/golden-ratio'
+"Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plugin 'junegunn/fzf.vim'
+"Plugin 'zchee/deoplete-jedi' "plugin to install autocomplete for python
+"Plugin 'Shougo/deoplete.nvim',
+"Plugin 'zchee/deoplete-jedi',
+"Plugin 'davidhalter/jedi-vim'
+"Plugin 'hari-rangarajan/CCTree' 
+call vundle#end()            " required
+"=== === === === === === === End of vundle setting === === === === === === === 
+
+"----------------------------- NerdTree Settings ------------------------------
+let NERDTreeIgnore = ['__pycache__', '\.pyc$', '\.o$', '\.so$', '\.a$', '\.swp', '*\.swp', '\.swo', '\.swn', '\.swh', '\.swm', '\.swl', '\.swk', '\.sw*$', '[a-zA-Z]*egg[a-zA-Z]*', '.DS_Store']
+let NERDTreeShowHidden=1
+
+"------------------------------- Key Mapping ----------------------------------
+"Rebind <Leader> key
+let mapleader = '/'
+"map ~ :Files<CR> "mapping `` to fzf fuzzy search.
+
+"--- EMMET CONFIG ---
+"redefine trigger key
+let g:user_emmet_leader_key=','
+
+"superuser-write alias
+cnoremap w!! w !sudo dd of=%
+
+"QuickSave Command ctrl+s to save:
+noremap  <silent> <C-S>      :update<CR>
+vnoremap <silent> <C-S> <C-C>:update<CR>
+inoremap <silent> <C-S> <C-O>:update<CR>
+nnoremap <C-q> :q <CR>
+vnoremap <silent> <C-q> <C-C>:q <CR>
+inoremap <silent> <C-q> <C-O>:q <CR>
+inoremap <c-z> <esc><c-z>
+"noremap <C-Z> :update<CR>
+"vnoremap <C-Z> <C-C>:update<CR>
+"vnoremap <C-Z> <C-O>:update<CR>
+
+"Compile the c source file  and run it's executable
+map <F9> :w <CR> :!clear && gcc % -o %< && ./%< <CR>
+"mapping vim-executioner commands
+nnoremap <silent> <F8> :ExecutionerVerticalBuffer<Return>
+vnoremap <silent> <F8> <C-C>:ExecutionerVerticalBuffer<Return>
+inoremap <silent> <F8> <C-O>:ExecutionerVerticalBuffer<Return>
+set pastetoggle=<F3>
+nnoremap <F5> :UndotreeToggle<cr>
+
+"NerdTree Toggle"
+map <F4> :NERDTreeToggle<CR>
+"easier movement between Tabs
+map <Leader>n <esc>:tabprevious<CR>
+map <Leader>m <esc>:tabnext<CR>
+
+"Quick movement between Windows 
+map <c-j> <c-w>h
+map <c-k> <c-w>j
+map <c-l> <c-w>k
+map <c-;> <c-w>l 
+
+"quick way to resize Windows
+nnoremap <S-Up> <C-w>+
+nnoremap <S-Down> <C-w>-
+nnoremap <S-Right> <C-w>>
+nnoremap <S-Left> <C-w><
+
+"map sort function to a key : select code block and 
+"press Leaderkey(,)+s to sort
+vnoremap <Leader>s :sort<CR>
+
+"Easy movement of codeblocks :select code block and press < to move block to right and press > to move code block to the left
+vnoremap < <gv 
+"betterindentation
+vnoremap > >gv 
+"betterindentation
+"---------------------------- End Of Key Mapping ------------------------------
+
+"Settings for ctrlp
+"cd ~/.vim/bundle
+"git clone https://github.com/kien/ctrlp.vim.git
+"let g:ctrlp_max_height = 30
+"set wildignore+=*.pyc
+"set wildignore+=*_build/*
+"set wildignore+=*/coverage/*
+
+"<=><=><=><=><=><=><=><=><=><=><=>  ALE Setup  <=><=><=><=><=><=><=><=><=><=><=>
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
+let g:ale_completion_enabled = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_set_highlights = 1
+let g:ale_linters = {'c': ['gcc']}
+"let g:ale_cursor_detail = 1
+"let g:ale_sign_error = '●' " Less aggressive than the default '>>'
+"let g:ale_sign_warning = '.'"
+
+
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=RED ctermfg=LightYellow
+"let g:ale_sign_error = '❌'
+"let g:ale_sign_warning = '⚠️'
+let g:ale_set_balloons = 1
+let g:ale_virtualtext_cursor = 1
+let g:ale_close_preview_on_insert = 0
+"let g:ale_change_sign_column_color = 1
+"set nomodeline
+set noshowmode
+"
+"let g:ale_open_list = 1
+" This can be useful if you are combining ALE with
+" some other plugin which sets quickfix errors, etc.
+"let g:ale_keep_list_window_open = 1
+"... ... ... ... ... ... ... ...  END of ALE Config  ... ... ... ... ... ... ...
+
+"<=><=><=><=><=><=><=><=><=><=><=>  FZF Setup  <=><=><=><=><=><=><=><=><=><=><=>
+set rtp+=~/.fzf
+"export FZF_DEFAULT_COMMAND='fd --type f'
+" Python folding
+" mkdir -p ~/.vim/ftplugin
+" wget -O ~/.vim/ftplugin/python_editing.vim 
+" http://www.vim.org/scripts/download_script.php?src_id=5492
+set nofoldenable
+
+"Settings for jedi-vim
+"cd ~/.vim/bundle
+"git clone git://github.com/davidhalter/jedi-vim.git
+"let g:jedi#usages_command ="<leader>z"
+"let g:jedi#popup_on_dot = 1
+"let g:jedi#popup_select_first = 0
+"map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+"... ... ... ... ... ... ... ...  END of FZF Config  ... ... ... ... ... ... ...
+
+"<=><=><=><=><=><=><=><=><=><=> Autocomplete Config <=><=><=><=><=><=><=><=><=>
+let g:enable_ycm_at_startup = 0
+let g:ycm_global_ycm_extra_conf = '$HOME/config_files/vim/.ycm_extra_conf.py'
+let g:ycm_auto_trigger = 1
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_autoclose_preview_window_after_insertion = 0 
+"changing it from 1
+set backspace=indent,eol,start
+let g:ycm_use_clangd = 1
+let g:ycm_show_diagnostics_ui = 0
+"... ... ... ... ... ... ... END of Autocomplete Config  ... ... ... ... ... ...
+
+"<=><=><=><=><=><=><=><=><=><=>  ALE Compiler Config <=><=><=><=><=><=><=><=><=>
+set path+=/lib/modules/4.19.91-1-MANJARO/build/include/
+"let g:ale_c_clang_options='-std=gnu11 -Wall -I/lib/modules/4.19.91-1-MANJARO/build/include -I/usr/include -I/lib/modules/4.19.91-1-MANJARO/build/arch/x86/include'
+"let g:ale_c_gcc_options='-std=gnu11 -Wall -I/lib/modules/4.19.91-1-MANJARO/build/include -I/usr/include -I/lib/modules/4.19.91-1-MANJARO/build/arch/x86/include'
+
+" -----------------------------------------------------------------------------
+"kernal ctag and cscope linkage
+"set tags+=tags,/usr/ksrc/linux-stable/tags;
+set tags+=tags,~/programming/c++/tags;
+" -----------------------------------------------------------------------------
+"vim Rainbow 
+let g:rainbow_active = 1         
+" -----------------------------------------------------------------------------
+"vim executioner settings
+let g:executioner#load_defaults = 1
+let g:executioner#full_name = '%'
+let g:executioner#base_name = '@'
+let g:executioner#extensions = {}
+let g:executioner#extensions['py']  = 'python3 %'
+let g:executioner#extensions['cpp'] = 'g++ % -o @.out;./@.out'
+"'g++ % -o %<'
+
+" -----------------------------------------------------------------------------
+" vim-devicons
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_airline_statusline = 1
+let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:WebDevIconsUnicodeDecorateFileNodes = 1
+let g:webdevicons_conceal_nerdtree_brackets = 1
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+let g:webdevicons_enable_nerdtree_brackets = 0
+let g:WebDevIconsOS = 'Darwin'
+let g:airline_powerline_fonts=1
+"let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = 'ƛ'
+"let g:DevIconsDefaultFolderOpenSymbol = 'ƛ'
+
+augroup nerdtreeconcealbrackets
+      autocmd!
+      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL
+      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
+      autocmd FileType nerdtree setlocal conceallevel=2
+      autocmd FileType nerdtree setlocal concealcursor=nvic
+augroup END
+
+augroup set_spell
+    autocmd!
+    autocmd FileType text setlocal spell
+augroup END
+
+let g:indentLine_enabled =1
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+"let g:indentLine_char = 'C'
+
+let g:bracey_server_allow_remote_connections = 1
+
